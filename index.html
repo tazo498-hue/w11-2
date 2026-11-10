@@ -1,0 +1,1157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Describe It! | Hard Mode</title>
+
+<style>
+:root {
+  --navy:#172554;
+  --blue:#2563eb;
+  --purple:#7c3aed;
+  --green:#15803d;
+  --red:#b91c1c;
+  --gray:#64748b;
+  --border:#dbe3ee;
+  --light:#eff6ff;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:#f4f7fc;
+  color:#1e293b;
+  font-family:Arial,"Noto Sans KR",sans-serif;
+  line-height:1.6;
+}
+header {
+  background:var(--navy);
+  color:white;
+  padding:22px 14px;
+  text-align:center;
+}
+header h1 { margin:0;font-size:30px; }
+header p { margin:5px 0;color:#cbd5e1; }
+main { max-width:900px;margin:24px auto;padding:0 14px; }
+.card {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px #14264d0a;
+}
+h2 { color:var(--navy);margin:0 0 12px; }
+h3 { margin:12px 0 8px; }
+button,select,input,textarea { font:inherit; }
+button,select {
+  border-radius:10px;
+  padding:10px 15px;
+}
+button {
+  border:0;
+  background:var(--blue);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:disabled { opacity:.45;cursor:not-allowed; }
+button:hover:not(:disabled) { filter:brightness(.93); }
+.secondary { background:#e2e8f0;color:#1e293b; }
+.purple { background:var(--purple); }
+.green { background:var(--green); }
+.red { background:var(--red); }
+select,input[type="number"] {
+  background:white;
+  border:1px solid var(--border);
+}
+.controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+.hidden { display:none!important; }
+.tip {
+  background:var(--light);
+  border-left:4px solid var(--blue);
+  padding:12px;
+  border-radius:9px;
+  margin:14px 0;
+}
+.progress {
+  height:10px;
+  background:#e2e8f0;
+  border-radius:20px;
+  overflow:hidden;
+  margin:12px 0;
+}
+.progress div {
+  height:100%;
+  background:var(--blue);
+  transition:width .3s;
+}
+.scene {
+  background:linear-gradient(145deg,#dbeafe,#f5f3ff);
+  border-radius:16px;
+  padding:25px 12px;
+  text-align:center;
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.scene-art {
+  font-size:clamp(46px,9vw,82px);
+  line-height:1.6;
+  letter-spacing:4px;
+}
+.scene-caption { color:#475569;font-size:15px; }
+.timer {
+  font-size:24px;
+  font-weight:bold;
+  color:var(--navy);
+}
+.phase-label {
+  display:inline-block;
+  background:#ede9fe;
+  color:#6d28d9;
+  border-radius:20px;
+  padding:4px 12px;
+  font-weight:bold;
+  font-size:13px;
+}
+.muted { color:var(--gray);font-size:14px; }
+textarea {
+  width:100%;
+  min-height:125px;
+  border:2px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  resize:vertical;
+  font-size:16px;
+}
+textarea:focus { outline:0;border-color:var(--blue); }
+.feedback {
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  margin-top:14px;
+}
+.good { color:var(--green); }
+.bad { color:var(--red); }
+.tag {
+  display:inline-block;
+  padding:3px 10px;
+  margin:3px;
+  border-radius:20px;
+  background:#dbeafe;
+  color:#1d4ed8;
+  font-size:13px;
+}
+.tag.adv { background:#ede9fe;color:#6d28d9; }
+.score {
+  font-size:44px;
+  font-weight:bold;
+  color:var(--blue);
+}
+.rubric {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:12px;
+}
+.rubric th,.rubric td {
+  padding:10px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+}
+.rubric th { background:#f1f5f9; }
+.rubric input {
+  width:65px;
+  padding:7px;
+  border-radius:7px;
+}
+.recording { animation:pulse 1s infinite; }
+@keyframes pulse { 50% { opacity:.55; } }
+.example {
+  background:#f0fdf4;
+  border-left:4px solid var(--green);
+  padding:12px;
+  border-radius:9px;
+}
+.compare {
+  background:#faf5ff;
+  border-left:4px solid var(--purple);
+  padding:12px;
+  border-radius:9px;
+}
+footer { text-align:center;color:var(--gray);padding:20px; }
+@media(max-width:550px) {
+  .card { padding:16px; }
+  .scene-art { letter-spacing:0; }
+  .rubric th,.rubric td { padding:7px 4px;font-size:13px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>🎨 Describe It! HARD MODE</h1>
+  <p>Observe • Remember • Explain • Speak</p>
+</header>
+
+<main>
+
+<section class="card" id="intro">
+  <h2>Challenge Your English!</h2>
+
+  <p>
+    You will see a situation for only <strong>15 seconds</strong>.
+    Then the picture will disappear.
+    Describe what you remember and explain why people acted
+    the way they did.
+  </p>
+
+  <div class="tip">
+    <strong>Your grammar goal</strong><br>
+    Use at least <strong>2 adjectives</strong> and
+    <strong>2 adverbs</strong>.<br><br>
+    Adjective: The street was <strong>wet</strong>.<br>
+    Adverb: The man walked <strong>carefully</strong>.
+  </div>
+
+  <h3>Task Sequence</h3>
+  <p>
+    👀 Observe (15s) → 🧠 Remember (10s) →
+    🎤 Speak (45s) → 🔍 Feedback → 🔊 Listen & Repeat
+  </p>
+
+  <div class="controls">
+    <label for="duration">Activity:</label>
+    <select id="duration">
+      <option value="2">5 minutes · 2 scenes</option>
+      <option value="4">10 minutes · 4 scenes</option>
+    </select>
+  </div>
+
+  <p class="muted">
+    Microphone access requires a supported browser and secure
+    context (HTTPS or localhost). Chrome or Edge is recommended.
+    Speech recognition may use an online service.
+  </p>
+
+  <button onclick="startActivity()">Start Hard Mode →</button>
+</section>
+
+<section class="card hidden" id="activity">
+
+  <div class="controls" style="justify-content:space-between">
+    <strong id="taskNumber"></strong>
+    <span class="timer" id="timer"></span>
+  </div>
+
+  <div class="progress"><div id="progressBar"></div></div>
+
+  <span class="phase-label" id="phaseLabel"></span>
+  <h2 id="sceneTitle" style="margin-top:12px"></h2>
+
+  <div class="scene" id="sceneBox" role="img">
+    <div class="scene-art" id="sceneArt"></div>
+    <div class="scene-caption" id="sceneCaption"></div>
+  </div>
+
+  <div id="hiddenScene" class="scene hidden">
+    <div style="font-size:60px">🧠</div>
+    <h3>Picture Hidden!</h3>
+    <p>Remember the people, objects, actions, and details.</p>
+  </div>
+
+  <div class="tip" id="taskPrompt"></div>
+
+  <div id="speakingPanel" class="hidden">
+    <h3>🎤 Your Speaking Task</h3>
+    <p>
+      Describe the scene from memory.
+      Explain how people behaved and why.
+      Use adjectives and adverbs.
+    </p>
+
+    <textarea id="answer"
+      placeholder="Your recognized English speech will appear here. You may also type."
+      aria-label="Your English description"></textarea>
+
+    <div class="controls" style="margin-top:12px">
+      <button class="purple" id="micButton"
+        onclick="toggleSpeech()">🎤 Start Speaking</button>
+      <span class="muted" id="micStatus" aria-live="polite"></span>
+    </div>
+
+    <p class="muted">
+      The timer continues while you speak. You can type if
+      speech recognition is unavailable.
+    </p>
+
+    <button id="submitButton" onclick="submitSpeaking()">
+      Submit Description
+    </button>
+  </div>
+
+  <div id="feedbackPanel" class="hidden">
+    <h3>🔍 Grammar Feedback</h3>
+    <div id="grammarFeedback" class="feedback"></div>
+
+    <h3>📊 Assessment Rubric</h3>
+    <p class="muted">
+      Suggested classroom scores. The teacher can adjust each score.
+      Fluency requires listening to the actual speech.
+    </p>
+
+    <table class="rubric">
+      <thead>
+        <tr><th>Category</th><th>Max</th><th>Score</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Accuracy</td><td>8</td>
+          <td><input id="scoreAccuracy" type="number" min="0" max="8" value="0"></td>
+        </tr>
+        <tr>
+          <td>Complexity</td><td>4</td>
+          <td><input id="scoreComplexity" type="number" min="0" max="4" value="0"></td>
+        </tr>
+        <tr>
+          <td>Lexis</td><td>4</td>
+          <td><input id="scoreLexis" type="number" min="0" max="4" value="0"></td>
+        </tr>
+        <tr>
+          <td>Fluency</td><td>4</td>
+          <td><input id="scoreFluency" type="number" min="0" max="4" value="0"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Total: <span id="rubricTotal">0</span>/20</strong></p>
+
+    <div class="controls">
+      <button onclick="saveRubric()">Save Scores</button>
+      <button class="secondary" onclick="showModel()">Show Model Answer</button>
+    </div>
+
+    <div id="modelPanel" class="feedback hidden">
+      <h3>🔊 Listen & Repeat</h3>
+      <div class="example" id="modelSentence"></div>
+
+      <div class="controls" style="margin-top:12px">
+        <button onclick="speakModel()">🔊 Listen</button>
+        <button class="secondary" onclick="stopAudio()">⏹ Stop Audio</button>
+        <button class="purple" id="repeatButton"
+          onclick="toggleRepeat()">🎤 Repeat</button>
+      </div>
+
+      <p class="muted" id="repeatStatus"></p>
+      <div id="repeatText"></div>
+      <div id="repeatFeedback"></div>
+    </div>
+
+    <div class="controls" style="margin-top:18px">
+      <button class="green" onclick="nextScene()">Next Scene →</button>
+      <button class="secondary" onclick="finishActivity()">Finish</button>
+    </div>
+  </div>
+</section>
+
+<section class="card hidden" id="results">
+  <h2>🏆 Hard Mode Complete!</h2>
+  <div class="score" id="finalScore"></div>
+  <p id="summary"></p>
+  <div id="resultDetails"></div>
+  <button onclick="restartActivity()">Practice Again</button>
+</section>
+
+</main>
+
+<footer>Describe It! | Cognition Hypothesis-Based Speaking Practice</footer>
+
+<script>
+"use strict";
+
+const scenes = [
+  {
+    title:"A Rainy Street",
+    art:"🌧️ ☂️ 🚶 🚗 💦 🏪",
+    caption:"A rainy street with a pedestrian, umbrella, car, puddle, and shop.",
+    prompt:"Describe the weather, the pedestrian, and the street. Explain why the person moved carefully.",
+    example:"It was a cold and rainy day. The busy street was wet and slippery. A person walked slowly and carefully because the road was dangerous."
+  },
+  {
+    title:"A Busy Café",
+    art:"☕ 👩‍💻 🧁 👨‍🍳 📱 🪑",
+    caption:"A café with a customer, laptop, cake, worker, phone, and chairs.",
+    prompt:"Describe the café, the customer, and the worker. Explain why the customer was working quietly.",
+    example:"The café was busy but comfortable. A focused customer worked quietly on a laptop. The worker moved quickly because many customers needed help."
+  },
+  {
+    title:"A Park Accident",
+    art:"🌳 🐕 🎾 🚴 😮 🧺",
+    caption:"A park with a dog, ball, cyclist, surprised person, and picnic basket.",
+    prompt:"Describe what happened in the park. Explain why someone looked surprised.",
+    example:"The energetic dog ran quickly after a ball. A cyclist moved carefully nearby. A surprised person stepped back because the dog suddenly crossed the path."
+  },
+  {
+    title:"A Cooking Competition",
+    art:"👩‍🍳 🥗 🔪 ⏰ 🥕 🏆",
+    caption:"A chef preparing vegetables with a knife, timer, and trophy.",
+    prompt:"Describe the chef and the food. Explain why the chef worked quickly.",
+    example:"The skilled chef prepared fresh and colorful vegetables. She cut them carefully but worked quickly because the competition was almost over."
+  }
+];
+
+const adjectiveSet = new Set(`
+happy sad beautiful quiet noisy busy calm peaceful
+comfortable cold hot warm wet dry rainy sunny windy
+energetic playful excited exciting amazing wonderful
+delicious fresh healthy focused careful careless
+confident nervous slow fast quick loud soft bright
+dark good bad easy difficult hard simple strong weak
+friendly kind angry tired hungry clean dirty
+interesting boring safe dangerous crowded empty
+colorful lovely small big large young old slippery
+surprised skilled delicious crowded
+`.trim().split(/\s+/));
+
+const adverbSet = new Set(`
+quickly slowly carefully quietly loudly beautifully
+excitedly confidently skillfully silently happily
+sadly calmly easily safely clearly politely gently
+badly well fast hard late early softly brightly
+nervously peacefully patiently actively smoothly
+suddenly
+`.trim().split(/\s+/));
+
+const correctionRules = [
+  {
+    regex:/\b(walks?|runs?|moves?|drives?)\s+slow\b/gi,
+    replacement:"$1 slowly",
+    explanation:"Use 'slowly' to describe how an action happens."
+  },
+  {
+    regex:/\b(walks?|cuts?|drives?|works?)\s+careful\b/gi,
+    replacement:"$1 carefully",
+    explanation:"Use 'carefully' to describe the action."
+  },
+  {
+    regex:/\b(runs?|walks?|moves?|works?)\s+quick\b/gi,
+    replacement:"$1 quickly",
+    explanation:"Use 'quickly' to describe an action."
+  },
+  {
+    regex:/\b(sings?|dances?)\s+beautiful\b/gi,
+    replacement:"$1 beautifully",
+    explanation:"Use 'beautifully' to describe an action."
+  },
+  {
+    regex:/\b(sings?|dances?|speaks?|plays?)\s+good\b/gi,
+    replacement:"$1 well",
+    explanation:"Use 'well' to describe how well an action is performed."
+  },
+  {
+    regex:/\b(is|are|am|was|were|seems|looks|feels)\s+happily\b/gi,
+    replacement:"$1 happy",
+    explanation:"Use an adjective to describe the subject after a linking verb."
+  },
+  {
+    regex:/\b(is|are|am|was|were|seems|looks|feels)\s+quietly\b/gi,
+    replacement:"$1 quiet",
+    explanation:"Use 'quiet' to describe the subject."
+  }
+];
+
+const $ = id => document.getElementById(id);
+
+let current = 0;
+let maxScenes = 2;
+let answers = [];
+let phase = "intro";
+let phaseRemaining = 0;
+let phaseTimer = null;
+let submitted = false;
+let finished = false;
+let sessionId = 0;
+
+let recognition = null;
+let recognitionToken = 0;
+let listening = false;
+let recordingType = null;
+let speechBase = "";
+let repeatTranscript = "";
+let speechStartedAt = null;
+let speechDuration = 0;
+
+function escapeHTML(text) {
+  return String(text).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function tokenize(text) {
+  return text.toLowerCase().match(/[a-z]+(?:'[a-z]+)?/g) || [];
+}
+
+function unique(items) {
+  return [...new Set(items)];
+}
+
+function startActivity() {
+  stopRecognition();
+  stopAudio();
+  clearInterval(phaseTimer);
+
+  sessionId++;
+  current = 0;
+  maxScenes = Number($("duration").value);
+  answers = [];
+  submitted = false;
+  finished = false;
+
+  $("intro").classList.add("hidden");
+  $("results").classList.add("hidden");
+  $("activity").classList.remove("hidden");
+
+  startScene();
+}
+
+function startScene() {
+  stopRecognition();
+  stopAudio();
+  clearInterval(phaseTimer);
+
+  submitted = false;
+  speechDuration = 0;
+
+  const scene = scenes[current];
+
+  $("taskNumber").textContent =
+    `Scene ${current+1} of ${maxScenes}`;
+  $("progressBar").style.width =
+    `${current/maxScenes*100}%`;
+
+  $("sceneTitle").textContent = scene.title;
+  $("sceneArt").textContent = scene.art;
+  $("sceneCaption").textContent = scene.caption;
+  $("sceneBox").setAttribute("aria-label",scene.caption);
+
+  $("sceneBox").classList.remove("hidden");
+  $("hiddenScene").classList.add("hidden");
+  $("speakingPanel").classList.add("hidden");
+  $("feedbackPanel").classList.add("hidden");
+  $("modelPanel").classList.add("hidden");
+
+  $("answer").value = "";
+  $("micStatus").textContent = "";
+  $("repeatStatus").textContent = "";
+  $("repeatText").textContent = "";
+  $("repeatFeedback").textContent = "";
+  $("submitButton").disabled = false;
+
+  setPhase("observe",15);
+}
+
+function setPhase(newPhase,seconds) {
+  clearInterval(phaseTimer);
+  phase = newPhase;
+  phaseRemaining = seconds;
+
+  const labels = {
+    observe:"👀 OBSERVE",
+    remember:"🧠 REMEMBER",
+    speak:"🎤 SPEAK",
+    feedback:"🔍 FEEDBACK"
+  };
+
+  $("phaseLabel").textContent = labels[phase];
+
+  if (phase === "observe") {
+    $("sceneBox").classList.remove("hidden");
+    $("hiddenScene").classList.add("hidden");
+    $("speakingPanel").classList.add("hidden");
+    $("taskPrompt").textContent =
+      "Observe the scene carefully. Remember the people, objects, actions, and details.";
+  }
+
+  if (phase === "remember") {
+    $("sceneBox").classList.add("hidden");
+    $("hiddenScene").classList.remove("hidden");
+    $("taskPrompt").textContent =
+      "The picture is hidden. Recall the scene and prepare to explain what happened.";
+  }
+
+  if (phase === "speak") {
+    $("sceneBox").classList.add("hidden");
+    $("hiddenScene").classList.remove("hidden");
+    $("speakingPanel").classList.remove("hidden");
+    $("taskPrompt").textContent = scenes[current].prompt;
+  }
+
+  updatePhaseTimer();
+
+  if (phase !== "feedback") {
+    phaseTimer = setInterval(() => {
+      phaseRemaining = Math.max(0,phaseRemaining-1);
+      updatePhaseTimer();
+
+      if (phaseRemaining === 0) {
+        clearInterval(phaseTimer);
+        advancePhase();
+      }
+    },1000);
+  }
+}
+
+function updatePhaseTimer() {
+  $("timer").textContent =
+    String(Math.floor(phaseRemaining/60)).padStart(2,"0") +
+    ":" +
+    String(phaseRemaining%60).padStart(2,"0");
+
+  $("timer").style.color =
+    phaseRemaining <= 5 ? "#b91c1c" : "#172554";
+}
+
+function advancePhase() {
+  if (finished) return;
+
+  if (phase === "observe") {
+    setPhase("remember",10);
+  } else if (phase === "remember") {
+    setPhase("speak",45);
+  } else if (phase === "speak") {
+    submitSpeaking();
+  }
+}
+
+function analyzeGrammar(text) {
+  const words = tokenize(text);
+  const foundAdj = [];
+  const foundAdv = [];
+  const issues = [];
+
+  words.forEach(word => {
+    if (adjectiveSet.has(word)) foundAdj.push(word);
+
+    if (adverbSet.has(word) ||
+        (word.endsWith("ly") &&
+         word.length > 4 &&
+         !["friendly","lovely","lonely","likely",
+           "silly","ugly"].includes(word))) {
+      foundAdv.push(word);
+    }
+  });
+
+  correctionRules.forEach(rule => {
+    const regex = new RegExp(rule.regex.source,"gi");
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      issues.push({
+        original:match[0],
+        corrected:match[0].replace(
+          new RegExp(rule.regex.source,"i"),
+          rule.replacement
+        ),
+        explanation:rule.explanation
+      });
+    }
+  });
+
+  const adj = unique(foundAdj);
+  const adv = unique(foundAdv);
+  const connectors = unique(words.filter(w =>
+    ["because","so","therefore","although",
+     "while","when","but"].includes(w)
+  ));
+
+  const sentences = text.split(/[.!?]+/)
+    .map(s=>s.trim()).filter(Boolean);
+
+  const suggestions = [];
+
+  if (adj.length < 2) {
+    suggestions.push("Try using at least two different adjectives.");
+  }
+  if (adv.length < 2) {
+    suggestions.push("Try using at least two different adverbs.");
+  }
+  if (!connectors.length) {
+    suggestions.push("Explain a reason using 'because' or another connector.");
+  }
+
+  // Classroom estimates, not validated CALF measures.
+  const targetCount = adj.length + adv.length;
+  const accuracy = targetCount === 0 ? 0 :
+    Math.max(0,8-Math.min(8,issues.length*2));
+
+  let complexity = 0;
+  if (sentences.length >= 1) complexity = 1;
+  if (sentences.length >= 2) complexity = 2;
+  if (words.length >= 18 && sentences.length >= 2) complexity = 3;
+  if (connectors.length && words.length >= 18) complexity = 4;
+
+  const lexis = Math.min(4,targetCount);
+
+  return {
+    adjectives:adj,
+    adverbs:adv,
+    connectors,
+    issues,
+    suggestions,
+    accuracy,
+    complexity,
+    lexis,
+    words:words.length
+  };
+}
+
+function submitSpeaking() {
+  if (submitted || finished) return;
+
+  clearInterval(phaseTimer);
+  stopRecognition();
+
+  submitted = true;
+  phase = "feedback";
+
+  $("phaseLabel").textContent = "🔍 FEEDBACK";
+  $("timer").textContent = "00:00";
+  $("speakingPanel").classList.add("hidden");
+  $("feedbackPanel").classList.remove("hidden");
+  $("submitButton").disabled = true;
+
+  const text = $("answer").value.trim();
+  const analysis = analyzeGrammar(text);
+
+  answers[current] = {
+    scene:scenes[current].title,
+    text,
+    analysis,
+    scores:{
+      accuracy:analysis.accuracy,
+      complexity:analysis.complexity,
+      lexis:analysis.lexis,
+      fluency:0
+    }
+  };
+
+  renderFeedback(analysis,text);
+  renderRubric();
+}
+
+function renderFeedback(a,text) {
+  let html = `
+    <p><strong>Your description:</strong><br>
+    ${escapeHTML(text || "(No response recorded)")}</p>
+    <p><strong>Adjectives:</strong> ${
+      a.adjectives.length
+        ? a.adjectives.map(w =>
+          `<span class="tag">${escapeHTML(w)}</span>`).join("")
+        : "None detected"
+    }</p>
+    <p><strong>Adverbs:</strong> ${
+      a.adverbs.length
+        ? a.adverbs.map(w =>
+          `<span class="tag adv">${escapeHTML(w)}</span>`).join("")
+        : "None detected"
+    }</p>
+    <p><strong>Reasoning connectors:</strong>
+    ${escapeHTML(a.connectors.join(", ") || "None detected")}</p>`;
+
+  if (a.issues.length) {
+    html += "<h4>Possible Grammar Corrections</h4>";
+    a.issues.forEach(issue => {
+      html += `<p class="bad">
+        ${escapeHTML(issue.original)} →
+        ${escapeHTML(issue.corrected)}</p>
+        <p>${escapeHTML(issue.explanation)}</p>`;
+    });
+  } else {
+    html += `<p class="good">
+      No targeted grammar errors detected.
+    </p>`;
+  }
+
+  if (a.suggestions.length) {
+    html += "<h4>Suggestions</h4><ul>";
+    a.suggestions.forEach(s => {
+      html += `<li>${escapeHTML(s)}</li>`;
+    });
+    html += "</ul>";
+  }
+
+  html += `<p class="muted">
+    This feedback uses word matching and selected grammar patterns.
+    It cannot verify every grammatical use or measure true
+    pronunciation accuracy.
+  </p>`;
+
+  $("grammarFeedback").innerHTML = html;
+}
+
+function renderRubric() {
+  const scores = answers[current].scores;
+
+  $("scoreAccuracy").value = scores.accuracy;
+  $("scoreComplexity").value = scores.complexity;
+  $("scoreLexis").value = scores.lexis;
+  $("scoreFluency").value = scores.fluency;
+
+  updateRubricTotal();
+}
+
+function clampScore(value,max) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 0;
+  return Math.min(max,Math.max(0,Math.round(n)));
+}
+
+function updateRubricTotal() {
+  const ids = [
+    ["scoreAccuracy",8],
+    ["scoreComplexity",4],
+    ["scoreLexis",4],
+    ["scoreFluency",4]
+  ];
+
+  let total = 0;
+  ids.forEach(([id,max]) => {
+    total += clampScore($(id).value,max);
+  });
+
+  $("rubricTotal").textContent = total;
+}
+
+["scoreAccuracy","scoreComplexity",
+ "scoreLexis","scoreFluency"].forEach(id => {
+  $(id).addEventListener("input",updateRubricTotal);
+});
+
+function saveRubric() {
+  if (!answers[current]) return;
+
+  const scores = {
+    accuracy:clampScore($("scoreAccuracy").value,8),
+    complexity:clampScore($("scoreComplexity").value,4),
+    lexis:clampScore($("scoreLexis").value,4),
+    fluency:clampScore($("scoreFluency").value,4)
+  };
+
+  answers[current].scores = scores;
+  renderRubric();
+
+  alert("Scores saved for this scene.");
+}
+
+function showModel() {
+  $("modelPanel").classList.remove("hidden");
+  $("modelSentence").textContent = scenes[current].example;
+}
+
+function speakText(text) {
+  if (!("speechSynthesis" in window)) {
+    alert("Text-to-speech is not supported.");
+    return;
+  }
+
+  stopAudio();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.rate = 0.85;
+  utterance.pitch = 1;
+
+  const voices = speechSynthesis.getVoices();
+  const voice = voices.find(v =>
+    v.lang.toLowerCase().startsWith("en")
+  );
+  if (voice) utterance.voice = voice;
+
+  speechSynthesis.speak(utterance);
+}
+
+function speakModel() {
+  speakText(scenes[current].example);
+}
+
+function stopAudio() {
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+}
+
+function getSpeechRecognition() {
+  return window.SpeechRecognition ||
+         window.webkitSpeechRecognition;
+}
+
+function startRecognition(type) {
+  const SpeechRecognition = getSpeechRecognition();
+
+  if (!SpeechRecognition) {
+    const msg = "Speech recognition is unavailable. Please type instead.";
+    if (type === "main") $("micStatus").textContent = msg;
+    else $("repeatStatus").textContent = msg;
+    return;
+  }
+
+  if (!window.isSecureContext) {
+    const msg = "Microphone access requires HTTPS or localhost.";
+    if (type === "main") $("micStatus").textContent = msg;
+    else $("repeatStatus").textContent = msg;
+    return;
+  }
+
+  stopAudio();
+  stopRecognition();
+
+  const token = ++recognitionToken;
+  const thisSession = sessionId;
+  const thisScene = current;
+
+  recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  recordingType = type;
+  speechBase = type === "main" ? $("answer").value.trim() : "";
+  repeatTranscript = "";
+
+  recognition.onresult = event => {
+    if (token !== recognitionToken ||
+        thisSession !== sessionId ||
+        thisScene !== current ||
+        finished) return;
+
+    let finalPart = "";
+    let interimPart = "";
+
+    for (let i=0;i<event.results.length;i++) {
+      const phrase = event.results[i][0].transcript;
+      if (event.results[i].isFinal) finalPart += phrase+" ";
+      else interimPart += phrase+" ";
+    }
+
+    const combined = [
+      speechBase,finalPart.trim(),interimPart.trim()
+    ].filter(Boolean).join(" ");
+
+    if (type === "main") {
+      $("answer").value = combined;
+    } else {
+      repeatTranscript = combined;
+      $("repeatText").textContent = "You said: " + combined;
+    }
+  };
+
+  recognition.onerror = event => {
+    if (token !== recognitionToken) return;
+
+    const msg = "Microphone error: " + event.error;
+    if (type === "main") $("micStatus").textContent = msg;
+    else $("repeatStatus").textContent = msg;
+  };
+
+  recognition.onend = () => {
+    if (token !== recognitionToken) return;
+
+    recognition = null;
+    listening = false;
+    recordingType = null;
+
+    $("micButton").textContent = "🎤 Start Speaking";
+    $("repeatButton").textContent = "🎤 Repeat";
+    $("micButton").classList.remove("recording");
+    $("repeatButton").classList.remove("recording");
+
+    if (type === "repeat" && repeatTranscript.trim()) {
+      evaluateRepeat(repeatTranscript);
+    }
+  };
+
+  try {
+    recognition.start();
+    listening = true;
+
+    if (type === "main") {
+      $("micButton").textContent = "⏹ Stop Speaking";
+      $("micButton").classList.add("recording");
+      $("micStatus").textContent = "Listening...";
+    } else {
+      $("repeatButton").textContent = "⏹ Stop";
+      $("repeatButton").classList.add("recording");
+      $("repeatStatus").textContent = "Listening...";
+    }
+  } catch(e) {
+    stopRecognition();
+  }
+}
+
+function stopRecognition() {
+  recognitionToken++;
+
+  if (recognition) {
+    const old = recognition;
+    recognition = null;
+    old.onresult = null;
+    old.onerror = null;
+    old.onend = null;
+    try { old.stop(); } catch(e) {}
+  }
+
+  listening = false;
+  recordingType = null;
+
+  $("micButton").textContent = "🎤 Start Speaking";
+  $("repeatButton").textContent = "🎤 Repeat";
+  $("micButton").classList.remove("recording");
+  $("repeatButton").classList.remove("recording");
+}
+
+function toggleSpeech() {
+  if (phase !== "speak" || submitted) return;
+
+  if (listening && recordingType === "main") {
+    stopRecognition();
+    $("micStatus").textContent = "Stopped.";
+  } else {
+    startRecognition("main");
+  }
+}
+
+function toggleRepeat() {
+  if (finished) return;
+
+  if (listening && recordingType === "repeat") {
+    if (recognition) {
+      try { recognition.stop(); } catch(e) {}
+    }
+  } else {
+    startRecognition("repeat");
+  }
+}
+
+function evaluateRepeat(spoken) {
+  const target = tokenize(scenes[current].example);
+  const actual = tokenize(spoken);
+
+  if (!actual.length) return;
+
+  const counts = {};
+  target.forEach(w => counts[w]=(counts[w]||0)+1);
+
+  let matched = 0;
+  actual.forEach(w => {
+    if ((counts[w]||0)>0) {
+      matched++;
+      counts[w]--;
+    }
+  });
+
+  const similarity = Math.round(
+    100*2*matched/(target.length+actual.length)
+  );
+
+  $("repeatFeedback").innerHTML = `
+    <div class="compare">
+      <strong>Recognized-word match: ${similarity}%</strong>
+      <p class="muted">
+        This measures overlap between recognized words and
+        the example, not pronunciation or fluency.
+      </p>
+    </div>`;
+  $("repeatStatus").textContent = "Repetition complete.";
+}
+
+function nextScene() {
+  if (!submitted) return;
+
+  saveCurrentRubric();
+
+  if (current < maxScenes-1) {
+    current++;
+    startScene();
+  } else {
+    finishActivity();
+  }
+}
+
+function saveCurrentRubric() {
+  if (!answers[current]) return;
+
+  answers[current].scores = {
+    accuracy:clampScore($("scoreAccuracy").value,8),
+    complexity:clampScore($("scoreComplexity").value,4),
+    lexis:clampScore($("scoreLexis").value,4),
+    fluency:clampScore($("scoreFluency").value,4)
+  };
+}
+
+function finishActivity() {
+  if (finished) return;
+
+  if (phase === "feedback") saveCurrentRubric();
+
+  finished = true;
+  clearInterval(phaseTimer);
+  stopRecognition();
+  stopAudio();
+
+  $("activity").classList.add("hidden");
+  $("results").classList.remove("hidden");
+
+  const completed = answers.filter(Boolean);
+  const total = completed.reduce((sum,a) => {
+    const s = a.scores;
+    return sum+s.accuracy+s.complexity+s.lexis+s.fluency;
+  },0);
+
+  $("finalScore").textContent =
+    `${total}/${completed.length*20}`;
+
+  $("summary").textContent =
+    `Completed ${completed.length} of ${maxScenes} scenes. ` +
+    "These are classroom practice scores, not validated proficiency scores.";
+
+  let html = "";
+
+  completed.forEach((a,i) => {
+    const s = a.scores;
+    const sceneTotal =
+      s.accuracy+s.complexity+s.lexis+s.fluency;
+
+    html += `<div class="feedback">
+      <h3>${i+1}. ${escapeHTML(a.scene)} (${sceneTotal}/20)</h3>
+      <p><strong>Your description:</strong><br>
+      ${escapeHTML(a.text || "(No response)")}</p>
+      <p>Accuracy: ${s.accuracy}/8 |
+      Complexity: ${s.complexity}/4 |
+      Lexis: ${s.lexis}/4 |
+      Fluency: ${s.fluency}/4</p>
+    </div>`;
+  });
+
+  $("resultDetails").innerHTML =
+    html || "<p>No responses were submitted.</p>";
+}
+
+function restartActivity() {
+  stopRecognition();
+  stopAudio();
+  clearInterval(phaseTimer);
+
+  $("results").classList.add("hidden");
+  $("intro").classList.remove("hidden");
+}
+</script>
+</body>
+</html>
